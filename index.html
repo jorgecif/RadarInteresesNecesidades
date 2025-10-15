@@ -111,19 +111,19 @@
         <div class="grid g-2">
           <div>
             <label for="q_trabajo">💼 Trabajo / estudio</label>
-            <textarea id="q_trabajo" placeholder="¿Qué te gustaría mejorar o resolver en tu entorno laboral o académico? Ej.: Automatizar tareas repetitivas en procesos de reporte"></textarea>
+            <textarea id="q_trabajo" placeholder="Ej.: Automatizar tareas repetitivas en procesos de reporte"></textarea>
           </div>
           <div>
             <label for="q_personal">🏠 Vida personal</label>
-            <textarea id="q_personal" placeholder="¿Qué te molesta o quisieras cambiar en tu día a día? Ej.: Organizar mejor mi tiempo y hábitos"></textarea>
+            <textarea id="q_personal" placeholder="Ej.: Organizar mejor mi tiempo y hábitos"></textarea>
           </div>
           <div>
             <label for="q_comunidad">🌎 Comunidad / entorno</label>
-            <textarea id="q_comunidad" placeholder="¿Qué problema ves en tu entorno que te genere empatía o interés? Ej.: Falta de reciclaje y educación ambiental en el barrio"></textarea>
+            <textarea id="q_comunidad" placeholder="Ej.: Falta de reciclaje y educación ambiental en el barrio"></textarea>
           </div>
           <div>
             <label for="q_pasiones">❤️ Pasiones / hobbies</label>
-            <textarea id="q_pasiones" placeholder="¿Qué tema disfrutas tanto que podrías trabajar en él durante horas? Ej.: Música y creatividad apoyadas con IA"></textarea>
+            <textarea id="q_pasiones" placeholder="Ej.: Música y creatividad apoyadas con IA"></textarea>
           </div>
         </div>
         <div class="nav">
@@ -243,7 +243,11 @@
 
     // ===== Tests (consola) =====
     (function runTests(){
-      const results=[]; const prevStep=step;
+      const results=[];
+      const prevStep=step;
+      const prevTrabajoVal = fields.trabajo.value; // snapshot del valor real del usuario
+      const prevLastSnapshot = lastDataJSON;       // snapshot del estado de sincronización
+
       // clamp
       results.push({name:'clamp inferior', pass: (Math.max(0,Math.min(2,-5))===0)});
       results.push({name:'clamp superior', pass: (Math.max(0,Math.min(2,9))===2)});
@@ -254,21 +258,28 @@
       results.push({name:'download disabled al inicio', pass: $('btnDownload').disabled===true});
       results.push({name:'preview oculto al inicio', pass: document.getElementById('previewBox').classList.contains('hidden')});
       results.push({name:'preview vacío al inicio', pass: $('preview').textContent.length===0});
-      // dirty solo si hay snapshot
+      // dirty solo si hay snapshot (usar valores temporales y restaurar al final)
       const beforeDirty=$('btnPreview').classList.contains('btn-danger');
       fields.trabajo.value='x'; fields.trabajo.dispatchEvent(new Event('input'));
       const dirtyOff=!$('btnPreview').classList.contains('btn-danger');
-      lastDataJSON=currentDataJSON(); fields.trabajo.value='y'; fields.trabajo.dispatchEvent(new Event('input'));
+      lastDataJSON=currentDataJSON(); // snapshot con 'x'
+      fields.trabajo.value='y'; fields.trabajo.dispatchEvent(new Event('input'));
       const dirtyOn=$('btnPreview').classList.contains('btn-danger');
       results.push({name:'dirty sin snapshot apagado', pass: !beforeDirty && dirtyOff});
       results.push({name:'dirty con snapshot encendido', pass: dirtyOn});
-      // restaurar paso visible
-      showStep(prevStep);
+
+      // --- Restaurar estado real del usuario ---
+      fields.trabajo.value = prevTrabajoVal; // devolver el valor original
+      fields.trabajo.dispatchEvent(new Event('input'));
+      lastDataJSON = prevLastSnapshot;       // devolver snapshot original
+      showStep(prevStep);                    // devolver paso original
+
       console.log('Self-tests:',results);
     })();
   </script>
 </body>
 </html>
+
 
 
 
