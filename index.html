@@ -12,35 +12,30 @@
     h1{margin:0 0 8px;font-size:clamp(22px,3.2vw,34px);letter-spacing:.2px}
     .sub{color:var(--muted);font-size:14px}
     main{padding:18px;max-width:1100px;margin:0 auto}
+
     .card{background:rgba(17,24,39,.6);border:1px solid rgba(148,163,184,.16);border-radius:16px;padding:18px}
     .grid{display:grid;gap:14px}
     .g-2{grid-template-columns:repeat(2,1fr)}
     @media (max-width:900px){.g-2{grid-template-columns:1fr}}
+
     label{display:block;font-weight:600;margin:6px 0 6px}
     input[type="text"],textarea{width:100%;background:#0b1226;color:var(--ink);border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:12px;outline:none;resize:vertical;min-height:48px}
     textarea{min-height:90px}
     input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
-    .toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:14px}
-    button{appearance:none;border:1px solid rgba(148,163,184,.18);color:#0b1025;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:10px 14px;border-radius:12px;cursor:pointer;transition:transform .08s ease,filter .2s ease;letter-spacing:.2px}
-    button.secondary{background:#0b1226;color:var(--ink)}
-    button.ghost{background:transparent;color:var(--ink)}
-    button:hover{filter:brightness(1.05)}
+
+    /* Botones */
+    button{appearance:none;border:none;color:#0b1025;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:10px 14px;border-radius:12px;cursor:pointer;transition:transform .08s ease,filter .2s ease,background .3s ease;letter-spacing:.2px;min-height:44px}
+    button:hover{filter:brightness(1.05);background:linear-gradient(135deg,var(--accent-2),var(--accent));}
     button:active{transform:translateY(1px)}
+    button[disabled]{opacity:0.5;cursor:not-allowed}
+    .secondary{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff}
+    .secondary:hover{background:linear-gradient(135deg,var(--accent),var(--accent-2));filter:brightness(1.1)}
+    .ghost{background:transparent;color:var(--ink);border:1px solid rgba(148,163,184,.3)}
+
     .pill{display:inline-flex;align-items:center;gap:8px;border:1px dashed rgba(148,163,184,.35);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:12px}
     .footer{color:var(--muted);font-size:12px;text-align:center;margin:20px 0 30px}
 
-    /* Preview */
-    .preview{white-space:pre-wrap;background:#0b1226;border:2px solid rgba(148,163,184,.22);padding:12px;border-radius:12px;max-height:300px;overflow:auto;transition:border-color .3s ease}
-    @keyframes borderPulse{0%{border-color:#ef4444}50%{border-color:#dc2626}100%{border-color:#ef4444}}
-    .preview.dirty{border-color:#ef4444!important;animation:borderPulse 1.5s ease-in-out infinite alternate}
-
-    .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-    .chip{background:#0b1226;color:var(--muted);border:1px solid rgba(148,163,184,.25);padding:6px 10px;border-radius:999px;font-size:12px}
-    .kpi{font-size:12px;color:var(--muted);display:flex;gap:14px;margin-top:6px;justify-content:space-between;align-items:center}
-    .kpi b{color:var(--ink)}
-    .progress{height:8px;background:#1f2937;border-radius:8px;overflow:hidden;margin-left:12px;flex:1}
-    .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .3s ease}
-
+    /* Stepper y vistas */
     .views{position:relative}
     .view{display:none}
     .view.active{display:block;animation:fadeSlideIn .35s ease both}
@@ -51,15 +46,36 @@
     .dot{width:10px;height:10px;border-radius:999px;background:#1f2937;border:1px solid rgba(148,163,184,.25)}
     .dot.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));border:none}
 
+    /* Preview */
+    .preview{white-space:pre-wrap;background:#0b1226;border:2px solid rgba(148,163,184,.22);padding:12px;border-radius:12px;max-height:300px;overflow:auto;transition:border-color .3s ease}
+    @keyframes borderPulse{0%{border-color:#ef4444}50%{border-color:#dc2626}100%{border-color:#ef4444}}
+    .preview.dirty{border-color:#ef4444!important;animation:borderPulse 1.5s ease-in-out infinite alternate}
+
+    /* Estados y ayuda */
     .btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff}
     .btn-danger.pulse{animation:pulse 1s ease-in-out infinite alternate}
     @keyframes pulse{from{filter:saturate(1)}to{filter:saturate(1.6)}}
-
     .hidden{display:none!important}
     .has-tooltip{position:relative}
     .has-tooltip.btn-danger[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);background:#111827;color:#e5e7eb;border:1px solid rgba(148,163,184,.25);padding:6px 8px;border-radius:8px;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s ease}
     .has-tooltip.btn-danger:hover[data-tip]::after,.has-tooltip.btn-danger:focus-visible[data-tip]::after{opacity:1}
     .btn-danger::before{content:attr(data-icon);margin-right:8px}
+
+    /* Responsive */
+    input[type="text"], textarea { font-size:16px; }
+    @media (max-width: 640px){
+      header{padding:20px 16px 6px}
+      main{padding:12px}
+      .card{padding:14px}
+      .grid{gap:10px}
+      .g-2{grid-template-columns:1fr}
+      .toolbar{flex-direction:column;align-items:stretch;gap:8px}
+      .toolbar button{width:100%}
+      .nav{flex-direction:column;gap:8px}
+      .nav .left, .nav .right{width:100%}
+      .nav .left button, .nav .right button{width:100%}
+      .preview{max-height:45vh}
+    }
   </style>
 </head>
 <body>
@@ -253,5 +269,7 @@
   </script>
 </body>
 </html>
+
+
 
 
